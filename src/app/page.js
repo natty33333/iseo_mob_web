@@ -14,25 +14,22 @@ export default function Home() {
 
     const channelId = '343c202c69ba6d11b7ec51741f9591ac';
     const webUrl = `https://chzzk.naver.com/${channelId}`;
-
     const ua = navigator.userAgent;
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
 
-    if (!isMobile) {
-      // On PC, open the link in a new window
-      window.open(webUrl, '_blank', 'noopener,noreferrer');
+    if (/Android/i.test(ua)) {
+      // Android: Attempt to open app via intent scheme
+      window.location.href = `intent://chzzk/live/${channelId}#Intent;scheme=navergame;package=com.navercorp.game.android.community;S.browser_fallback_url=${encodeURIComponent(webUrl)};end`;
+    } else if (/iPhone|iPad|iPod/i.test(ua)) {
+      // iOS: Attempt to open app via navergame scheme
+      window.location.href = `navergame://chzzk/live/${channelId}`;
+      setTimeout(() => {
+        if (document.hasFocus()) {
+          window.location.href = webUrl;
+        }
+      }, 2500);
     } else {
-      // On real mobile devices, try to launch the app using the scheme that worked initially
-      if (/Android/i.test(ua)) {
-        window.location.href = `intent://chzzk/live/${channelId}#Intent;scheme=navergame;package=com.navercorp.game.android.community;S.browser_fallback_url=${encodeURIComponent(webUrl)};end`;
-      } else {
-        window.location.href = `navergame://chzzk/live/${channelId}`;
-        setTimeout(() => {
-          if (document.hasFocus()) {
-            window.location.href = webUrl;
-          }
-        }, 2500);
-      }
+      // Desktop: Open web version in a new window as requested
+      window.open(webUrl, '_blank', 'noopener,noreferrer');
     }
   };
 

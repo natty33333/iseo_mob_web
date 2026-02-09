@@ -1,0 +1,84 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    /* Dynamic viewport height for modern browsers */
+    width: 100%;
+    background-color: hsl(var(--background));
+    overflow: hidden;
+    /* Prevent body scroll */
+}
+
+.header {
+    height: 60px;
+    min-height: 60px;
+    background-color: hsl(var(--card));
+    border-bottom: 1px solid hsl(var(--border));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    z-index: 10;
+    padding: 0 1rem;
+    padding-top: env(safe-area-inset-top);
+    /* Status bar area */
+    color: hsl(var(--foreground));
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(10px);
+    /* Glassmorphism effect if supported */
+}
+
+.main {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1rem;
+    /* Smooth scrolling */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.bottomNav {
+    height: 60px;
+    min-height: 60px;
+    background-color: hsl(var(--card));
+    border-top: 1px solid hsl(var(--border));
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 10;
+    padding-bottom: env(safe-area-inset-bottom);
+    /* Home indicator area */
+    box-sizing: content-box;
+    box-shadow: 0 -1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.navItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.7rem;
+    color: hsl(var(--muted-foreground));
+    gap: 4px;
+    cursor: pointer;
+    flex: 1;
+    height: 100%;
+    justify-content: center;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    border-radius: 8px;
+    /* For touch feedback */
+    margin: 0 4px;
+}
+
+.navItem:active {
+    color: hsl(var(--primary));
+    background-color: hsl(var(--accent));
+    transform: scale(0.95);
+}
+
+.navIcon {
+    font-size: 1.25rem;
+    margin-bottom: 2px;
+}

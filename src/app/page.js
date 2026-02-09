@@ -24,9 +24,11 @@ export default function Home() {
     } else {
       // On real mobile devices, try to launch the app
       if (/Android/i.test(ua)) {
-        window.location.href = `intent://chzzk/live/${channelId}#Intent;scheme=navergame;package=com.navercorp.game.android.community;S.browser_fallback_url=${encodeURIComponent(webUrl)};end`;
+        // Updated scheme to 'chizizic' based on verified app scheme info
+        window.location.href = `intent://channel/${channelId}#Intent;scheme=chizizic;package=com.navercorp.game.android.community;S.browser_fallback_url=${encodeURIComponent(webUrl)};end`;
       } else {
-        window.location.href = `navergame://chzzk/live/${channelId}`;
+        // iOS: Using chizizic scheme
+        window.location.href = `chizizic://channel/${channelId}`;
         setTimeout(() => {
           if (document.hasFocus()) {
             window.location.href = webUrl;

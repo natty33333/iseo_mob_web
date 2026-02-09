@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import ImageSlider from '@/components/ImageSlider';
 
@@ -6,6 +8,11 @@ export default function Home() {
     { src: '/iso_main.png', alt: '이소에 메인' },
     { src: '/isoe_1st.png', alt: '이소에 1주년' }
   ];
+
+  const handleLinkClick = (url) => (e) => {
+    e.preventDefault();
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <div className="container" style={{
@@ -25,8 +32,7 @@ export default function Home() {
       <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center' }}>
         <a
           href="https://chzzk.naver.com/343c202c69ba6d11b7ec51741f9591ac"
-          target="_blank"
-          rel="noopener noreferrer"
+          onClick={handleLinkClick('https://chzzk.naver.com/343c202c69ba6d11b7ec51741f9591ac')}
           className="btn btn-primary"
           style={{ maxWidth: '280px', width: '100%' }}
         >
@@ -37,8 +43,7 @@ export default function Home() {
       <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center' }}>
         <a
           href="https://x.com/V_lSOE"
-          target="_blank"
-          rel="noopener noreferrer"
+          onClick={handleLinkClick('https://x.com/V_lSOE')}
           className="btn btn-secondary"
           style={{ maxWidth: '280px', width: '100%' }}
         >

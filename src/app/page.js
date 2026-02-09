@@ -12,20 +12,28 @@ export default function Home() {
   const handleChzzkClick = (e) => {
     e.preventDefault();
 
-    // Try to open Chzzk app first using deep link
-    const appUrl = 'chzzk://live/343c202c69ba6d11b7ec51741f9591ac';
-    const webUrl = 'https://chzzk.naver.com/343c202c69ba6d11b7ec51741f9591ac';
+    const channelId = '343c202c69ba6d11b7ec51741f9591ac';
+    const webUrl = `https://chzzk.naver.com/${channelId}`;
 
-    // Attempt to open app
-    window.location.href = appUrl;
+    const ua = navigator.userAgent;
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
 
-    // Fallback to web if app doesn't open (after 2 seconds)
-    setTimeout(() => {
-      // This will only execute if user is still on the page (app didn't open)
-      if (document.hasFocus()) {
-        window.open(webUrl, '_blank', 'noopener,noreferrer');
+    if (!isMobile) {
+      // On PC, open the link in a new window
+      window.open(webUrl, '_blank', 'noopener,noreferrer');
+    } else {
+      // On real mobile devices, try to launch the app
+      if (/Android/i.test(ua)) {
+        window.location.href = `intent://chzzk/live/${channelId}#Intent;scheme=navergame;package=com.navercorp.game.android.community;S.browser_fallback_url=${encodeURIComponent(webUrl)};end`;
+      } else {
+        window.location.href = `navergame://chzzk/live/${channelId}`;
+        setTimeout(() => {
+          if (document.hasFocus()) {
+            window.location.href = webUrl;
+          }
+        }, 2500);
       }
-    }, 2000);
+    }
   };
 
   const handleTwitterClick = (e) => {

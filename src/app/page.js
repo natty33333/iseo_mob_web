@@ -9,9 +9,28 @@ export default function Home() {
     { src: '/isoe_1st.png', alt: '이소에 1주년' }
   ];
 
-  const handleLinkClick = (url) => (e) => {
+  const handleChzzkClick = (e) => {
     e.preventDefault();
-    window.open(url, '_blank', 'noopener,noreferrer');
+
+    // Try to open Chzzk app first using deep link
+    const appUrl = 'chzzk://live/343c202c69ba6d11b7ec51741f9591ac';
+    const webUrl = 'https://chzzk.naver.com/343c202c69ba6d11b7ec51741f9591ac';
+
+    // Attempt to open app
+    window.location.href = appUrl;
+
+    // Fallback to web if app doesn't open (after 2 seconds)
+    setTimeout(() => {
+      // This will only execute if user is still on the page (app didn't open)
+      if (document.hasFocus()) {
+        window.open(webUrl, '_blank', 'noopener,noreferrer');
+      }
+    }, 2000);
+  };
+
+  const handleTwitterClick = (e) => {
+    e.preventDefault();
+    window.open('https://x.com/V_lSOE', '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -32,7 +51,7 @@ export default function Home() {
       <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center' }}>
         <a
           href="https://chzzk.naver.com/343c202c69ba6d11b7ec51741f9591ac"
-          onClick={handleLinkClick('https://chzzk.naver.com/343c202c69ba6d11b7ec51741f9591ac')}
+          onClick={handleChzzkClick}
           className="btn btn-primary"
           style={{ maxWidth: '280px', width: '100%' }}
         >
@@ -43,7 +62,7 @@ export default function Home() {
       <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center' }}>
         <a
           href="https://x.com/V_lSOE"
-          onClick={handleLinkClick('https://x.com/V_lSOE')}
+          onClick={handleTwitterClick}
           className="btn btn-secondary"
           style={{ maxWidth: '280px', width: '100%' }}
         >

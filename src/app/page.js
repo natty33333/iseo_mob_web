@@ -37,12 +37,11 @@ export default function Home() {
   const handleChzzkLink = (e) => {
 
     e.preventDefault();
-
-    const appScheme = "chzzk://live/343c202c69ba6d11b7ec51741f9591ac";
-    const webUrl = "https://chzzk.naver.com/live/343c202c69ba6d11b7ec51741f9591ac";
-
-    // 1. 앱 스킴 실행 시도
+    const channelId = "343c202c69ba6d11b7ec51741f9591ac";
+    const appScheme = `navergame://chzzk/show/channel/${channelId}`;
     window.location.href = appScheme;
+
+    const webUrl = `https://chzzk.naver.com/${channelId}`;;
 
     // 2. 1.5초 후에 확인해서 앱이 안 열렸으면 웹으로 이동
     const checkApp = setTimeout(() => {

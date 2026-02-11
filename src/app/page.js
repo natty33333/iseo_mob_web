@@ -38,30 +38,27 @@ export default function Home() {
     e.preventDefault();
 
     const channelId = "343c202c69ba6d11b7ec51741f9591ac";
-    const appScheme = `navergame://chzzk/show/channel/${channelId}`;
     const webUrl = `https://chzzk.naver.com/${channelId}`;
 
-    // 1. [핵심] a 태그를 동적으로 생성해서 강제 클릭 유도
-    // location.href 보다 브라우저의 '앱 열기' 팝업을 더 잘 끌어냅니다.
-    const trigger = document.createElement("a");
-    trigger.href = appScheme;
-    trigger.style.display = "none";
-    document.body.appendChild(trigger);
-    trigger.click(); // 강제 클릭!
-    document.body.removeChild(trigger);
+    // 1. [사파리 대응] 일단 새 탭으로 웹 페이지를 엽니다.
+    // 사파리는 사용자 액션(클릭) 직후가 아니면 window.open을 차단하므로 
+    // 함수 시작하자마자 실행하는 것이 가장 안전합니다.
+    const newWindow = window.open(webUrl, '_blank', 'noopener,noreferrer');
 
-    // 2. 앱 미설치 시 웹으로 보내는 로직 (타이머)
-    const start = Date.now();
-    const checkApp = setTimeout(() => {
-      const end = Date.now();
-      // 1.5초가 지났는데도 여전히 브라우저가 보이고(hidden이 아님),
-      // 앱으로 갔다 온 게 아니라면(시간 차이가 2초 미만이면) 웹 이동
-      if (!document.hidden && end - start < 2000) {
-        window.location.href = webUrl;
-      }
-    }, 1500);
+    // 2. [앱 호출 시도] 앱이 있다면 여기서 앱이 열립니다.
+    // 앱이 열리면 위에서 연 새 탭(웹)은 뒤로 가거나 그대로 남습니다.
+    const appScheme = `navergame://chzzk/show/channel/${channelId}`;
 
-    window.onblur = () => clearTimeout(checkApp);
+    // iframe 방식으로 앱 호출 시도 (현재 페이지가 바뀌는 것을 방지하고 에러를 무시함)
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = appScheme;
+    document.body.appendChild(iframe);
+
+    // 잠시 후 iframe 제거
+    setTimeout(() => {
+      document.body.removeChild(iframe);
+    }, 100);
   };
 
 

@@ -27,7 +27,118 @@
     color: hsl(var(--foreground));
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     backdrop-filter: blur(10px);
+    position: relative;
     /* Glassmorphism effect if supported */
+}
+
+.title {
+    pointer-events: none;
+}
+
+.hamburger {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 11;
+}
+
+.hamburger span {
+    width: 100%;
+    height: 2px;
+    background-color: hsl(var(--foreground));
+    border-radius: 10px;
+    transition: all 0.3s linear;
+    position: relative;
+    transform-origin: 1px;
+}
+
+.hamburger.open span:first-child {
+    transform: rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+.hamburger.open span:last-child {
+    transform: rotate(-45deg);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 20;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(2px);
+}
+
+.overlayOpen {
+    opacity: 1;
+    visibility: visible;
+}
+
+.sideMenu {
+    position: fixed;
+    top: 0;
+    right: -280px;
+    width: 280px;
+    height: 100%;
+    background-color: hsl(var(--card));
+    z-index: 30;
+    transition: right 0.3s ease-in-out;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.sideMenuOpen {
+    right: 0;
+}
+
+.sideMenuHeader {
+    padding: 2rem 1.5rem 1rem;
+    border-bottom: 1px solid hsl(var(--border));
+}
+
+.sideMenuHeader h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: hsl(var(--foreground));
+}
+
+.menuList {
+    list-style: none;
+    padding: 1rem 0;
+    margin: 0;
+}
+
+.menuList li {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    color: hsl(var(--foreground));
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.menuList li:active {
+    background-color: hsl(var(--accent));
 }
 
 .main {

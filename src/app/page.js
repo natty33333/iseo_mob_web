@@ -41,30 +41,30 @@ export default function Home() {
     const webUrl = `https://chzzk.naver.com/${channelId}`;
     const appScheme = `navergame://chzzk/show/channel/${channelId}`;
 
-    // 1. 일단 웹창을 띄웁니다 (보험)
-    const newWindow = window.open(webUrl, '_blank', 'noopener,noreferrer');
+    let isAppOpened = false;
 
-    // 2. 앱 호출 시도 (iframe 방식)
+    // 1. 앱이 열렸는지 감지하는 리스너
+    const handleBlur = () => {
+      isAppOpened = true; // 앱이 열려서 화면이 가려짐
+    };
+    window.addEventListener('blur', handleBlur, { once: true });
+
+    // 2. 앱 호출 시도 (iframe 방식이 가장 조용함)
     const iframe = document.createElement("iframe");
     iframe.style.display = "none";
     iframe.src = appScheme;
     document.body.appendChild(iframe);
 
-    // 3. [핵심] 앱이 열리면(브라우저가 포커스를 잃으면) 새로 연 웹창을 닫아버림
-    const closeWebWindow = () => {
-      if (newWindow) {
-        newWindow.close(); // 앱이 열렸으니 웹창은 필요 없음!
-      }
-    };
-
-    // 사용자가 앱으로 빠져나가는 순간 실행
-    window.addEventListener('blur', closeWebWindow, { once: true });
-
-    // 0.5초 안에 앱이 안 열리면 그냥 웹창을 유지 (앱 없는 경우)
+    // 3. 0.5초~1초 정도 기다려보고, 앱이 안 열렸으면 그때서야 새 창 열기
     setTimeout(() => {
-      window.removeEventListener('blur', closeWebWindow);
       document.body.removeChild(iframe);
-    }, 500);
+      window.removeEventListener('blur', handleBlur);
+
+      // 앱이 안 열렸을 때(isAppOpened가 여전히 false일 때)만 새 창 오픈!
+      if (!isAppOpened && !document.hidden) {
+        window.open(webUrl, '_blank', 'noopener,noreferrer');
+      }
+    }, 800); // 0.8초 정도가 앱 실행 팝업을 기다려주기에 적당합니다.
   };
 
 

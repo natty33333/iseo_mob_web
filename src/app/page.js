@@ -35,24 +35,32 @@ export default function Home() {
   };
 
   const handleChzzkLink = (e) => {
-
     e.preventDefault();
+
     const channelId = "343c202c69ba6d11b7ec51741f9591ac";
     const appScheme = `navergame://chzzk/show/channel/${channelId}`;
-    window.location.href = appScheme;
+    const webUrl = `https://chzzk.naver.com/${channelId}`;
 
-    const webUrl = `https://chzzk.naver.com/${channelId}`;;
+    // 1. [핵심] a 태그를 동적으로 생성해서 강제 클릭 유도
+    // location.href 보다 브라우저의 '앱 열기' 팝업을 더 잘 끌어냅니다.
+    const trigger = document.createElement("a");
+    trigger.href = appScheme;
+    trigger.style.display = "none";
+    document.body.appendChild(trigger);
+    trigger.click(); // 강제 클릭!
+    document.body.removeChild(trigger);
 
-    // 2. 1.5초 후에 확인해서 앱이 안 열렸으면 웹으로 이동
+    // 2. 앱 미설치 시 웹으로 보내는 로직 (타이머)
+    const start = Date.now();
     const checkApp = setTimeout(() => {
-      // 사용자가 앱으로 이동했다면 브라우저는 background 상태가 됨
-      // 여전히 브라우저가 활성화(visible) 상태라면 웹 링크로 이동시킴
-      if (!document.hidden) {
+      const end = Date.now();
+      // 1.5초가 지났는데도 여전히 브라우저가 보이고(hidden이 아님),
+      // 앱으로 갔다 온 게 아니라면(시간 차이가 2초 미만이면) 웹 이동
+      if (!document.hidden && end - start < 2000) {
         window.location.href = webUrl;
       }
     }, 1500);
 
-    // 페이지를 떠나면(앱이 열리면) 타이머를 취소해서 중복 이동 방지
     window.onblur = () => clearTimeout(checkApp);
   };
 

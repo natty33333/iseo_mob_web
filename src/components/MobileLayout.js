@@ -7,7 +7,7 @@ export default function MobileLayout({ children }) {
         <div className={styles.container}>
             {/* Header */}
             <header className={styles.header}>
-                <span>♥️이소에</span>
+                <span>🫧이소에</span>
             </header>
 
             {/* Main Content */}

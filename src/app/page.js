@@ -39,26 +39,32 @@ export default function Home() {
 
     const channelId = "343c202c69ba6d11b7ec51741f9591ac";
     const webUrl = `https://chzzk.naver.com/${channelId}`;
-
-    // 1. [사파리 대응] 일단 새 탭으로 웹 페이지를 엽니다.
-    // 사파리는 사용자 액션(클릭) 직후가 아니면 window.open을 차단하므로 
-    // 함수 시작하자마자 실행하는 것이 가장 안전합니다.
-    const newWindow = window.open(webUrl, '_blank', 'noopener,noreferrer');
-
-    // 2. [앱 호출 시도] 앱이 있다면 여기서 앱이 열립니다.
-    // 앱이 열리면 위에서 연 새 탭(웹)은 뒤로 가거나 그대로 남습니다.
     const appScheme = `navergame://chzzk/show/channel/${channelId}`;
 
-    // iframe 방식으로 앱 호출 시도 (현재 페이지가 바뀌는 것을 방지하고 에러를 무시함)
+    // 1. 일단 웹창을 띄웁니다 (보험)
+    const newWindow = window.open(webUrl, '_blank', 'noopener,noreferrer');
+
+    // 2. 앱 호출 시도 (iframe 방식)
     const iframe = document.createElement("iframe");
     iframe.style.display = "none";
     iframe.src = appScheme;
     document.body.appendChild(iframe);
 
-    // 잠시 후 iframe 제거
+    // 3. [핵심] 앱이 열리면(브라우저가 포커스를 잃으면) 새로 연 웹창을 닫아버림
+    const closeWebWindow = () => {
+      if (newWindow) {
+        newWindow.close(); // 앱이 열렸으니 웹창은 필요 없음!
+      }
+    };
+
+    // 사용자가 앱으로 빠져나가는 순간 실행
+    window.addEventListener('blur', closeWebWindow, { once: true });
+
+    // 0.5초 안에 앱이 안 열리면 그냥 웹창을 유지 (앱 없는 경우)
     setTimeout(() => {
+      window.removeEventListener('blur', closeWebWindow);
       document.body.removeChild(iframe);
-    }, 100);
+    }, 500);
   };
 
 

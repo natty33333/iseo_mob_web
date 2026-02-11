@@ -21,7 +21,8 @@ export default function Home() {
       window.location.href = `intent://chzzk/live/${channelId}#Intent;scheme=navergame;package=com.navercorp.game.android.community;S.browser_fallback_url=${encodeURIComponent(webUrl)};end`;
     } else if (/iPhone|iPad|iPod/i.test(ua)) {
       // iOS: Attempt to open app via navergame scheme
-      window.location.href = `navergame://chzzk/live/${channelId}`;
+      window.location.href = `navergame://chzzk/live/${channelId
+        } `;
       setTimeout(() => {
         if (document.hasFocus()) {
           window.location.href = webUrl;
@@ -32,6 +33,30 @@ export default function Home() {
       window.open(webUrl, '_blank', 'noopener,noreferrer');
     }
   };
+
+  const handleChzzkLink = (e) => {
+
+    e.preventDefault();
+
+    const appScheme = "chzzk://live/343c202c69ba6d11b7ec51741f9591ac";
+    const webUrl = "https://chzzk.naver.com/live/343c202c69ba6d11b7ec51741f9591ac";
+
+    // 1. 앱 스킴 실행 시도
+    window.location.href = appScheme;
+
+    // 2. 1.5초 후에 확인해서 앱이 안 열렸으면 웹으로 이동
+    const checkApp = setTimeout(() => {
+      // 사용자가 앱으로 이동했다면 브라우저는 background 상태가 됨
+      // 여전히 브라우저가 활성화(visible) 상태라면 웹 링크로 이동시킴
+      if (!document.hidden) {
+        window.location.href = webUrl;
+      }
+    }, 1500);
+
+    // 페이지를 떠나면(앱이 열리면) 타이머를 취소해서 중복 이동 방지
+    window.onblur = () => clearTimeout(checkApp);
+  };
+
 
   const handleTwitterClick = (e) => {
     e.preventDefault();
@@ -55,8 +80,8 @@ export default function Home() {
 
       <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center' }}>
         <a
-          href="https://chzzk.naver.com/343c202c69ba6d11b7ec51741f9591ac"
-          onClick={handleChzzkClick}
+          href="javascript:void(0)"
+          onClick={handleChzzkLink}
           className="btn btn-primary"
           style={{ maxWidth: '280px', width: '100%' }}
         >

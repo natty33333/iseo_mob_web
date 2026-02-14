@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import styles from './MobileLayout.module.css';
 import LoginModal from './LoginModal';
+import PushSubscriptionManager from './PushSubscriptionManager';
 
 export default function MobileLayout({ children }) {
     const router = useRouter();
@@ -111,6 +112,7 @@ export default function MobileLayout({ children }) {
                         </div>
                     )}
                 </div>
+                <PushSubscriptionManager />
                 <ul className={styles.menuList}>
                     <li onClick={() => { router.push('/'); toggleMenu(); }}>홈</li>
                     <li onClick={() => { router.push('/schedule'); toggleMenu(); }}>시간표</li>
@@ -129,6 +131,9 @@ export default function MobileLayout({ children }) {
                                     </li>
                                     <li onClick={() => { router.push('/admin/inquiries'); toggleMenu(); }} className={styles.subMenu}>
                                         └ 문의함 확인
+                                    </li>
+                                    <li onClick={() => { router.push('/admin/push'); toggleMenu(); }} className={styles.subMenu}>
+                                        └ 푸시알림 발송
                                     </li>
                                 </>
                             )}

@@ -24,7 +24,21 @@ export async function GET() {
       console.log("Columns might already exist or error adding them:", e.message);
     }
 
-    return NextResponse.json({ message: "Inquiries table updated with answer and answered_at columns" }, { status: 200 });
+    // 3. 푸시 알림 구독 테이블 생성
+    try {
+      await sql`
+            CREATE TABLE IF NOT EXISTS push_subscriptions (
+                id SERIAL PRIMARY KEY,
+                subscription TEXT NOT NULL,
+                email TEXT,
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+            );
+        `;
+    } catch (e) {
+      console.error("Error creating push_subscriptions table:", e.message);
+    }
+
+    return NextResponse.json({ message: "Inquiries table and Push table updated successfully" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

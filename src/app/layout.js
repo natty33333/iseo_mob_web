@@ -23,6 +23,8 @@ export const metadata = {
     title: "이소에",
   },
   icons: {
+    icon: "/iso_main.png",
+    shortcut: "/iso_main.png",
     apple: "/iso_main.png",
   },
 };

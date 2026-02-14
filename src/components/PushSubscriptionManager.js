@@ -20,9 +20,12 @@ export default function PushSubscriptionManager() {
     }, []);
 
     const urlBase64ToUint8Array = (base64String) => {
-        const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-        const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-        const rawData = window.atob(base64);
+        // 공백 및 불필요한 문자 제거
+        const base64 = base64String.replace(/\s/g, '').replace(/-/g, '+').replace(/_/g, '/');
+        const padding = '='.repeat((4 - (base64.length % 4)) % 4);
+        const fullBase64 = base64 + padding;
+
+        const rawData = window.atob(fullBase64);
         const outputArray = new Uint8Array(rawData.length);
         for (let i = 0; i < rawData.length; ++i) {
             outputArray[i] = rawData.charCodeAt(i);

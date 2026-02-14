@@ -14,8 +14,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Simple Mobile Webview",
-  description: "A simple mobile webview site built with Next.js",
+  title: "이소에 모바일",
+  description: "이소에 공식 모바일 웹 애플리케이션",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "이소에",
+  },
+  icons: {
+    apple: "/iso_main.png",
+  },
 };
 
 export const viewport = {

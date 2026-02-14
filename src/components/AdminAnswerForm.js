@@ -6,6 +6,7 @@ export default function AdminAnswerForm({ inquiryId, initialAnswer }) {
     const [answer, setAnswer] = useState(initialAnswer || '');
     const [saving, setSaving] = useState(false);
     const [isEditing, setIsEditing] = useState(!initialAnswer);
+    const [hasAnswer, setHasAnswer] = useState(!!initialAnswer);
 
     const handleSave = async () => {
         if (!answer.trim()) return;
@@ -20,6 +21,7 @@ export default function AdminAnswerForm({ inquiryId, initialAnswer }) {
 
             if (response.ok) {
                 alert('답변이 저장되었습니다. ✅');
+                setHasAnswer(true);
                 setIsEditing(false);
             } else {
                 alert('저장 실패했습니다.');
@@ -31,7 +33,7 @@ export default function AdminAnswerForm({ inquiryId, initialAnswer }) {
         }
     };
 
-    if (!isEditing && !initialAnswer) {
+    if (!isEditing && !hasAnswer) {
         return (
             <button
                 onClick={() => setIsEditing(true)}
@@ -43,7 +45,7 @@ export default function AdminAnswerForm({ inquiryId, initialAnswer }) {
         );
     }
 
-    if (!isEditing && initialAnswer) {
+    if (!isEditing && hasAnswer) {
         return (
             <div style={{ marginTop: '0.8rem', padding: '0.8rem', background: 'rgba(66, 133, 244, 0.1)', borderRadius: '8px', border: '1px solid rgba(66, 133, 244, 0.3)' }}>
                 <p style={{ fontSize: '0.8rem', color: '#4285F4', fontWeight: 'bold', marginBottom: '0.4rem' }}>관리자 답변</p>
@@ -79,7 +81,7 @@ export default function AdminAnswerForm({ inquiryId, initialAnswer }) {
             />
             <div style={{ display: 'flex', gap: '0.5rem' }}>
                 <button
-                    onClick={() => setIsEditing(initialAnswer ? false : false)}
+                    onClick={() => setIsEditing(false)}
                     className="btn btn-secondary"
                     style={{ flex: 1, padding: '0.5rem', fontSize: '0.8rem' }}
                 >

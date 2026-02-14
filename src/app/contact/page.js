@@ -34,7 +34,7 @@ export default function ContactPage() {
 
             if (response.ok) {
                 alert('문의가 성공적으로 접수되었습니다! 💌');
-                router.push('/');
+                router.push('/my-inquiries');
             } else {
                 const data = await response.json();
                 alert('실패: ' + (data.error || '알 수 없는 오류'));

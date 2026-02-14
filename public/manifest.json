@@ -1,5 +1,5 @@
 {
-    "name": "이소에 모바일 웹",
+    "name": "이소에 모바일",
     "short_name": "이소에",
     "description": "이소에 공식 모바일 웹 애플리케이션",
     "start_url": "/",
@@ -7,6 +7,12 @@
     "background_color": "#0a0a0a",
     "theme_color": "#0a0a0a",
     "icons": [
+        {
+            "src": "/iso_main.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
         {
             "src": "/iso_main.png",
             "sizes": "512x512",

@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import MobileLayout from "@/components/MobileLayout";
+import { Providers } from "@/components/Providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ko">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <MobileLayout>{children}</MobileLayout>
+        <Providers>
+          <MobileLayout>{children}</MobileLayout>
+        </Providers>
       </body>
     </html>
   );

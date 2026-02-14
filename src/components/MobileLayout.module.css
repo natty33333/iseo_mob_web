@@ -123,6 +123,20 @@
     color: hsl(var(--foreground));
 }
 
+.userInfo {
+    margin-top: 1rem;
+    padding: 0.5rem 0.75rem;
+    background-color: hsl(var(--accent));
+    border-radius: 0.5rem;
+}
+
+.userName {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+    margin-bottom: 0;
+}
+
 .menuList {
     list-style: none;
     padding: 1rem 0;
@@ -137,8 +151,23 @@
     transition: background-color 0.2s ease;
 }
 
+.menuList li:hover {
+    background-color: hsl(var(--accent));
+}
+
 .menuList li:active {
     background-color: hsl(var(--accent));
+}
+
+.subMenu {
+    padding-left: 2.5rem !important;
+    font-size: 0.9rem !important;
+    color: hsl(var(--muted-foreground)) !important;
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.subMenu:hover {
+    color: hsl(var(--foreground)) !important;
 }
 
 .main {

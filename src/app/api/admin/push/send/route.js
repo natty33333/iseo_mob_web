@@ -6,11 +6,18 @@ import webpush from 'web-push';
 const ADMIN_EMAILS = ['dumi3345@gmail.com', '0Aoi.Soe0@gmail.com'];
 
 // VAPID 설정 (환경 변수에서 가져옴)
-webpush.setVapidDetails(
-    'mailto:dumi3345@gmail.com',
-    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
-    process.env.VAPID_PRIVATE_KEY
-);
+const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+const privateKey = process.env.VAPID_PRIVATE_KEY;
+
+if (publicKey && privateKey) {
+    webpush.setVapidDetails(
+        'mailto:dumi3345@gmail.com',
+        publicKey,
+        privateKey
+    );
+} else {
+    console.warn('⚠️ VAPID keys are missing. Push notifications will not work until keys are set in environment variables.');
+}
 
 export async function POST(request) {
     try {

@@ -10,17 +10,28 @@ export default function MobileLayout({ children }) {
     const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAdminMenuOpen, setIsAdminMenuOpen] = useState(false);
+    const [isInquiryMenuOpen, setIsInquiryMenuOpen] = useState(false);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
     const { data: session } = useSession();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
-        if (isMenuOpen) setIsAdminMenuOpen(false); // 메뉴 닫힐 때 서브메뉴도 닫기
+        if (isMenuOpen) {
+            setIsAdminMenuOpen(false);
+            setIsInquiryMenuOpen(false);
+        }
     };
 
     const toggleAdminMenu = (e) => {
         e.stopPropagation();
         setIsAdminMenuOpen(!isAdminMenuOpen);
+        setIsInquiryMenuOpen(false);
+    };
+
+    const toggleInquiryMenu = (e) => {
+        e.stopPropagation();
+        setIsInquiryMenuOpen(!isInquiryMenuOpen);
+        setIsAdminMenuOpen(false);
     };
 
     const openLoginModal = () => {
@@ -40,6 +51,25 @@ export default function MobileLayout({ children }) {
         <div className={styles.container}>
             {/* Header */}
             <header className={styles.header}>
+                <button
+                    className={styles.homeButton}
+                    onClick={() => router.push('/')}
+                    aria-label="Home"
+                >
+                    <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                </button>
                 <span className={styles.title}>💧이소에🫧</span>
                 <button
                     className={`${styles.hamburger} ${isMenuOpen ? styles.open : ''}`}
@@ -61,10 +91,23 @@ export default function MobileLayout({ children }) {
             {/* Side Menu */}
             <nav className={`${styles.sideMenu} ${isMenuOpen ? styles.sideMenuOpen : ''}`}>
                 <div className={styles.sideMenuHeader}>
-                    <h2>메뉴</h2>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                        <h2 style={{ margin: 0 }}>메뉴</h2>
+                        {!session && (
+                            <button onClick={openLoginModal} className={styles.headerLoginBtn}>로그인</button>
+                        )}
+                    </div>
                     {session?.user && (
                         <div className={styles.userInfo}>
-                            <p className={styles.userName}>{session.user.name.length > 2 ? session.user.name.slice(1) : session.user.name}님 반가워요!</p>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <p className={styles.userName}>{session.user.name.length > 2 ? session.user.name.slice(1) : session.user.name}님 반가워요!</p>
+                                <button
+                                    onClick={() => { signOut({ callbackUrl: '/' }); toggleMenu(); }}
+                                    className={styles.logoutBtn}
+                                >
+                                    로그아웃
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -84,7 +127,7 @@ export default function MobileLayout({ children }) {
                                     <li onClick={() => { router.push('/admin/schedule'); toggleMenu(); }} className={styles.subMenu}>
                                         └ 시간표등록
                                     </li>
-                                    <li onClick={() => { alert('문의함 확인 페이지로 이동합니다.'); toggleMenu(); }} className={styles.subMenu}>
+                                    <li onClick={() => { router.push('/admin/inquiries'); toggleMenu(); }} className={styles.subMenu}>
                                         └ 문의함 확인
                                     </li>
                                 </>
@@ -92,17 +135,31 @@ export default function MobileLayout({ children }) {
                         </>
                     )}
 
-                    {session ? (
-                        <li onClick={() => { signOut({ callbackUrl: '/' }); toggleMenu(); }}>로그아웃</li>
-                    ) : (
-                        <li onClick={openLoginModal}>로그인</li>
+                    {/* 문의 메뉴 (서브메뉴 형태) */}
+                    <li onClick={toggleInquiryMenu} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        💬 문의
+                        <span>{isInquiryMenuOpen ? '▴' : '▾'}</span>
+                    </li>
+                    {isInquiryMenuOpen && (
+                        <>
+                            <li onClick={() => {
+                                if (session) {
+                                    router.push('/contact');
+                                    toggleMenu();
+                                } else {
+                                    alert('로그인한 사용자만 문의가 가능합니다! 🔒');
+                                    openLoginModal();
+                                }
+                            }} className={styles.subMenu}>
+                                └ 문의하기
+                            </li>
+                            {session && (
+                                <li onClick={() => { router.push('/my-inquiries'); toggleMenu(); }} className={styles.subMenu}>
+                                    └ 내 문의내역
+                                </li>
+                            )}
+                        </>
                     )}
-                    <li onClick={() => {
-                        if (!session) {
-                            alert('로그인한 사용자만 문의가 가능합니다!');
-                        }
-                        toggleMenu();
-                    }}>문의하기</li>
                 </ul>
             </nav>
 

@@ -35,6 +35,35 @@
     pointer-events: none;
 }
 
+.homeButton {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 11;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: hsl(var(--foreground));
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.homeButton:hover {
+    background-color: hsl(var(--accent));
+    transform: translateY(-50%) scale(1.1);
+}
+
+.homeButton:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
 .hamburger {
     position: absolute;
     right: 1rem;
@@ -135,6 +164,31 @@
     font-weight: 600;
     color: hsl(var(--foreground));
     margin-bottom: 0;
+}
+
+.logoutBtn,
+.headerLoginBtn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--muted-foreground));
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.logoutBtn:hover,
+.headerLoginBtn:hover {
+    background: hsl(var(--destructive));
+    color: white;
+    border-color: hsl(var(--destructive));
+}
+
+.headerLoginBtn:hover {
+    background: hsl(var(--primary));
+    color: white;
+    border-color: hsl(var(--primary));
 }
 
 .menuList {

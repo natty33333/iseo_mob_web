@@ -14,9 +14,7 @@ const withPWA = withPWAInit({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // reactCompiler: true // 일단 빌드 오류를 줄이기 위해 컴파일러 옵션은 잠시 제외하거나 유지 (필요시)
   reactCompiler: true,
 };
 
-// PWA 설정을 적용하여 내보냅니다.
 export default withPWA(nextConfig);

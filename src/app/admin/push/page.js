@@ -22,7 +22,7 @@ export default function AdminPushPage() {
 
             if (response.ok) {
                 const data = await response.json();
-                alert(`알림 전송 성공! (${data.message})`);
+                alert(`알림 전송 성공!`);
                 setTitle('');
                 setBody('');
             } else {

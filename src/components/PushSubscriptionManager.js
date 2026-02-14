@@ -76,7 +76,7 @@ export default function PushSubscriptionManager() {
                 className={isSubscribed ? "btn btn-secondary" : "btn btn-primary"}
                 style={{ width: '100%', fontSize: '0.85rem', padding: '0.6rem' }}
             >
-                {isSubscribed ? '🔔 알림 끄기' : '🔕 알림 받기'}
+                {isSubscribed ? '🔕 알림 끄기' : '🔔 알림 받기'}
             </button>
         </div>
     );

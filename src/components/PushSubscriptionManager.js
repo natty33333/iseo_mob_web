@@ -34,9 +34,13 @@ export default function PushSubscriptionManager() {
         if (!registration) return;
 
         try {
+            // 모든 공백, 줄바꿈 제거 (Vercel이나 .env에서 의도치 않게 들어간 경우 대비)
+            const cleanedKey = VAPID_PUBLIC_KEY.replace(/\s/g, '');
+            const applicationServerKey = urlBase64ToUint8Array(cleanedKey);
+
             const subscription = await registration.pushManager.subscribe({
                 userVisibleOnly: true,
-                applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+                applicationServerKey: applicationServerKey,
             });
 
             const response = await fetch('/api/push/subscribe', {

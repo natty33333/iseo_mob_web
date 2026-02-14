@@ -14,11 +14,9 @@ const withPWA = withPWAInit({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // reactCompiler: true // 일단 빌드 오류를 줄이기 위해 컴파일러 옵션은 잠시 제외하거나 유지 (필요시)
   reactCompiler: true,
-  // Turbopack과 Webpack 설정을 공존시키기 위한 빈 설정 추가
-  experimental: {
-    turbopack: {},
-  },
 };
 
+// PWA 설정을 적용하여 내보냅니다.
 export default withPWA(nextConfig);

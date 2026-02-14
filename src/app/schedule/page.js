@@ -1,4 +1,5 @@
 import { list } from '@vercel/blob';
+import ZoomableImage from '@/components/ZoomableImage';
 
 // 매번 최신 목록을 가져오도록 설정
 export const revalidate = 0;
@@ -21,24 +22,20 @@ export default async function SchedulePage() {
     }
 
     return (
-        <div className="container animate-fade-in" style={{ padding: '1rem', textAlign: 'center' }}>
-            <h1 style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>📅 이번 주 시간표</h1>
+        <div className="animate-fade-in" style={{ textAlign: 'center' }}>
+            <h1 style={{ marginBottom: '1.5rem', fontSize: '1.5rem', marginTop: '1rem' }}>📅 이번 주 시간표</h1>
 
             {latestSchedule ? (
-                <div style={{ position: 'relative', width: '100%', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }}>
-                    <img
-                        src={latestSchedule.url}
-                        alt="이번 주 시간표"
-                        style={{ width: '100%', height: 'auto', display: 'block' }}
-                    />
-                </div>
+                <ZoomableImage src={latestSchedule.url} alt="이번 주 시간표" />
             ) : (
-                <div className="card" style={{ padding: '3rem 1rem' }}>
-                    <p style={{ color: 'var(--muted-foreground)' }}>아직 등록된 시간표가 없습니다. 😭</p>
+                <div className="container">
+                    <div className="card" style={{ padding: '3rem 1rem' }}>
+                        <p style={{ color: 'var(--muted-foreground)' }}>아직 등록된 시간표가 없습니다. 😭</p>
+                    </div>
                 </div>
             )}
 
-            <p style={{ marginTop: '1.5rem', fontSize: '0.9rem', color: 'var(--muted-foreground)' }}>
+            <p style={{ marginTop: '1.5rem', fontSize: '0.9rem', color: 'var(--muted-foreground)', padding: '0 1rem' }}>
                 * 시간표는 관리자에 의해 매주 업데이트됩니다.
             </p>
         </div>

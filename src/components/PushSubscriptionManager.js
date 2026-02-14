@@ -51,7 +51,13 @@ export default function PushSubscriptionManager() {
             }
         } catch (error) {
             console.error('Failed to subscribe:', error);
-            alert('알림 권한을 허용해 주세요!');
+            if (error.name === 'NotAllowedError') {
+                alert('알림 권한이 거부되었습니다. 브라우저 설정에서 알림 권한을 허용해 주세요!');
+            } else if (error.name === 'InvalidCharacterError' || error.message.includes('65 bytes')) {
+                alert('VAPID 키 설정에 문제가 있습니다. 관리자에게 문의하세요.');
+            } else {
+                alert('알림 구독 중 오류가 발생했습니다: ' + error.message);
+            }
         }
     };
 

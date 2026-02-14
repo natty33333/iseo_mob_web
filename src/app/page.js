@@ -101,6 +101,23 @@ export default function Home() {
 
       <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center' }}>
         <a
+          href="https://www.youtube.com/@i_soe"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn"
+          style={{
+            maxWidth: '280px',
+            width: '100%',
+            backgroundColor: '#d64848ff',
+            color: 'white'
+          }}
+        >
+          유튜브 바로가기 📺
+        </a>
+      </div>
+
+      <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center' }}>
+        <a
           href="https://x.com/V_lSOE"
           onClick={handleTwitterClick}
           className="btn btn-secondary"

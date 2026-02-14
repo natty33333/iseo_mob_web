@@ -15,6 +15,8 @@ const withPWA = withPWAInit({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactCompiler: true,
+  // Turbopack 에러를 무시하고 Webpack을 사용하도록 명시
+  turbopack: {},
 };
 
 export default withPWA(nextConfig);

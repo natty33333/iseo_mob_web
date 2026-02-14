@@ -25,15 +25,14 @@ export default async function SchedulePage() {
             <h1 style={{ marginBottom: '1.5rem', fontSize: '1.5rem', marginTop: '1rem' }}>📅 이번 주 시간표</h1>
 
             {latestSchedule ? (
-                <div style={{ padding: '0 1rem' }}>
+                <div style={{ width: 'calc(100% + 2rem)', margin: '0 -1rem' }}>
                     <img
                         src={latestSchedule.url}
                         alt="이번 주 시간표"
                         style={{
                             width: '100%',
                             height: 'auto',
-                            borderRadius: '12px',
-                            boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
+                            display: 'block'
                         }}
                     />
                 </div>

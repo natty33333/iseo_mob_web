@@ -44,7 +44,7 @@ export default function MobileLayout({ children }) {
     };
 
     // 관리자 이메일 목록 (여기에 권한을 줄 이메일을 추가하세요)
-    const ADMIN_EMAILS = ['dumi3345@gmail.com', 'oaoi.soe0@gmail.com'];
+    const ADMIN_EMAILS = ['dumi3345@gmail.com', '0aoi.soe0@gmail.com'];
     const isAdmin = session?.user?.email && ADMIN_EMAILS.includes(session.user.email);
 
     return (

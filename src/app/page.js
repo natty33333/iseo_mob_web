@@ -83,11 +83,7 @@ export default function Home() {
     }}>
       <div className="animate-fade-in" style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
         <ImageSlider images={images} />
-        <h1>환영합니다! 👋</h1>
-        <p>이소에를 위한 사이트입니다.</p>
       </div>
-
-
       <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center' }}>
         <a
           href="javascript:void(0)"

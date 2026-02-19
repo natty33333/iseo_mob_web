@@ -3,14 +3,13 @@ import { getServerSession } from "next-auth/next";
 import { redirect } from 'next/navigation';
 import AdminAnswerForm from '@/components/AdminAnswerForm';
 import { cleanupOldInquiries } from '@/lib/db-utils';
+import { ADMIN_EMAILS } from '@/lib/admin-config';
 
 export const revalidate = 0;
 
 export default async function AdminInquiriesPage() {
     const session = await getServerSession();
-    const ADMIN_EMAILS = ['dumi3345@gmail.com', '0Aoi.Soe0@gmail.com'];
-
-    if (!session || !ADMIN_EMAILS.includes(session.user.email)) {
+    if (!session || !ADMIN_EMAILS.includes(session.user.email.toLowerCase())) {
         redirect('/');
     }
 

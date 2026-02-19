@@ -1,14 +1,13 @@
 import { put, del, list } from '@vercel/blob';
 import { NextResponse } from 'next/server';
 import { getServerSession } from "next-auth/next";
+import { ADMIN_EMAILS } from '@/lib/admin-config';
 
-// 관리자 리스트
-const ADMIN_EMAILS = ['dumi3345@gmail.com', '0Aoi.Soe0@gmail.com'];
 
 export async function POST(request) {
     const session = await getServerSession();
 
-    if (!session || !ADMIN_EMAILS.includes(session.user.email)) {
+    if (!session || !ADMIN_EMAILS.includes(session.user.email.toLowerCase())) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import styles from './MobileLayout.module.css';
 import LoginModal from './LoginModal';
+import { ADMIN_EMAILS } from '@/lib/admin-config';
 
 export default function MobileLayout({ children }) {
     const router = useRouter();
@@ -43,9 +44,8 @@ export default function MobileLayout({ children }) {
         setIsLoginModalOpen(false);
     };
 
-    // 관리자 이메일 목록 (여기에 권한을 줄 이메일을 추가하세요)
-    const ADMIN_EMAILS = ['dumi3345@gmail.com', '0aoi.soe0@gmail.com'];
-    const isAdmin = session?.user?.email && ADMIN_EMAILS.includes(session.user.email);
+    // 관리자 여부 확인 (중앙 설정 파일 사용)
+    const isAdmin = session?.user?.email && ADMIN_EMAILS.includes(session.user.email.toLowerCase());
 
     return (
         <div className={styles.container}>

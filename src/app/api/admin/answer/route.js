@@ -1,15 +1,15 @@
 import { sql } from '@vercel/postgres';
 import { getServerSession } from "next-auth/next";
 import { NextResponse } from 'next/server';
+import { ADMIN_EMAILS } from '@/lib/admin-config';
 
-const ADMIN_EMAILS = ['dumi3345@gmail.com', '0Aoi.Soe0@gmail.com'];
 
 export async function POST(request) {
     try {
         const session = await getServerSession();
 
         // 관리자 권한 확인
-        if (!session || !ADMIN_EMAILS.includes(session.user.email)) {
+        if (!session || !ADMIN_EMAILS.includes(session.user.email.toLowerCase())) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 

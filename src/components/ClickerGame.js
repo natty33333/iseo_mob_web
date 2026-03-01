@@ -28,6 +28,8 @@ export default function ClickerGame({
     const [nickname, setNickname] = useState('');
     const [isEditingNickname, setIsEditingNickname] = useState(false);
 
+    const [isRefreshing, setIsRefreshing] = useState(false);
+
     const containerRef = useRef(null);
     const hitTimeoutRef = useRef(null);
     const syncTimeoutRef = useRef(null);
@@ -135,10 +137,31 @@ export default function ClickerGame({
             .catch(console.error);
     };
 
+    const handleRefreshRanking = () => {
+        if (isRefreshing) return;
+        setIsRefreshing(true);
+        fetch('/api/game/rank')
+            .then(res => res.json())
+            .then(data => {
+                if (data.rankings) {
+                    updateRankingsWithAnimation(data.rankings);
+                }
+            })
+            .catch(console.error)
+            .finally(() => {
+                setTimeout(() => setIsRefreshing(false), 500);
+            });
+    };
+
     const handleInteraction = (e) => {
         if (hp <= 0) return;
 
         playHitSound();
+
+        // 햅틱 진동 효과 (모바일 기기 지원)
+        if (typeof window !== 'undefined' && navigator.vibrate) {
+            navigator.vibrate(50); // 50ms 동안 짧게 진동
+        }
 
         if (containerRef.current) {
             const rect = containerRef.current.getBoundingClientRect();
@@ -304,7 +327,37 @@ export default function ClickerGame({
 
             {/* Ranking List Area */}
             <div className={styles.rankingContainer}>
-                <h3 className={styles.rankingTitle}>🏆 터치 랭킹 🏆</h3>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', marginBottom: '1.5rem' }}>
+                    <h3 className={styles.rankingTitle} style={{ margin: 0 }}>🏆 터치 랭킹 🏆</h3>
+                    <button
+                        onClick={handleRefreshRanking}
+                        style={{
+                            position: 'absolute',
+                            right: 0,
+                            background: 'transparent',
+                            border: '1px solid hsl(var(--border))',
+                            color: 'hsl(var(--foreground))',
+                            borderRadius: '50%',
+                            width: '32px',
+                            height: '32px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            fontSize: '1rem',
+                            transition: 'transform 0.3s'
+                        }}
+                        title="순위 새로고침"
+                    >
+                        <span style={{
+                            display: 'inline-block',
+                            transform: isRefreshing ? 'rotate(360deg)' : 'rotate(0deg)',
+                            transition: 'transform 0.5s ease-in-out'
+                        }}>
+                            🔄
+                        </span>
+                    </button>
+                </div>
 
                 {rankings.length === 0 ? (
                     <p style={{ textAlign: 'center', opacity: 0.5, padding: '20px' }}>아직 참여한 유저가 없습니다.</p>

@@ -2,12 +2,26 @@
 
 import Image from 'next/image';
 import ImageSlider from '@/components/ImageSlider';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
   const images = [
     { src: '/iso_main.png', alt: '이소에 메인' },
     { src: '/isoe_1st.png', alt: '이소에 1주년' }
   ];
+
+  const [topRankers, setTopRankers] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/game/rank')
+      .then(res => res.json())
+      .then(data => {
+        if (data.rankings) {
+          setTopRankers(data.rankings.slice(0, 3));
+        }
+      })
+      .catch(console.error);
+  }, []);
 
   const handleChzzkClick = (e) => {
     e.preventDefault();
@@ -84,7 +98,28 @@ export default function Home() {
       <div className="animate-fade-in" style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
         <ImageSlider images={images} />
       </div>
-      <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center' }}>
+
+      <div style={{ marginBottom: '1.5rem', padding: '1rem', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '1rem', textAlign: 'center' }}>
+        <h3 style={{ fontSize: '1.1rem', fontWeight: 'bold', marginBottom: '0.8rem', color: '#fbbf24' }}>🏆 명예의 전당 🏆</h3>
+        {topRankers.length > 0 ? (
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            {topRankers.map((ranker, idx) => {
+              const medals = ['🥇 1위', '🥈 2위', '🥉 3위'];
+              return (
+                <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: '80px', background: 'rgba(0,0,0,0.3)', padding: '0.5rem', borderRadius: '0.5rem' }}>
+                  <span style={{ fontSize: '0.85rem', marginBottom: '0.3rem' }}>{medals[idx]}</span>
+                  <span style={{ fontWeight: 'bold', color: '#67e8f9', fontSize: '0.95rem', marginBottom: '0.2rem' }}>{ranker.name || '익명'}</span>
+                  <span style={{ fontSize: '0.8rem', color: 'hsl(var(--muted-foreground))' }}>{Number(ranker.score).toLocaleString()}</span>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <p style={{ fontSize: '0.9rem', opacity: 0.6, margin: 0 }}>랭킹 데이터를 불러오는 중...</p>
+        )}
+      </div>
+
+      <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'center' }}>
         <a
           href="javascript:void(0)"
           onClick={handleChzzkLink}

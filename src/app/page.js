@@ -114,6 +114,22 @@ export default function Home() {
 
       <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center' }}>
         <a
+          href="/game"
+          className="btn"
+          style={{
+            maxWidth: '280px',
+            width: '100%',
+            backgroundColor: '#67e8f9', // 산뜻하고 밝은 민트/하늘색 톤
+            color: '#000',
+            fontWeight: 'bold'
+          }}
+        >
+          미니 게임 🎮
+        </a>
+      </div>
+
+      <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center' }}>
+        <a
           href="https://x.com/V_lSOE"
           onClick={handleTwitterClick}
           className="btn btn-secondary"

@@ -34,10 +34,9 @@ export default function ClickerGame({
     const hitTimeoutRef = useRef(null);
     const syncTimeoutRef = useRef(null);
 
-    // Audio function to support rapid overlapping clicks
     const playHitSound = () => {
         const audio = new Audio('/hit.mp3');
-        audio.volume = 0.5; // 너무 시끄럽지 않게 볼륨 조절
+        audio.volume = 0.3; // 기본 타격음은 작게
         audio.play().catch(e => console.log('Audio play failed (maybe no interaction yet): ', e));
     };
 
@@ -198,11 +197,11 @@ export default function ClickerGame({
             const nextScore = prev + 1;
             if (nextScore % 1000 === 0) {
                 const noAudio = new Audio('/no.mp3');
-                noAudio.volume = 0.8;
+                noAudio.volume = 1.0;
                 noAudio.play().catch(e => console.log('Audio play failed:', e));
             } else if (nextScore % 100 === 0) {
                 const stopAudio = new Audio('/stop.mp3');
-                stopAudio.volume = 0.8;
+                stopAudio.volume = 1.0;
                 stopAudio.play().catch(e => console.log('Audio play failed:', e));
             }
             return nextScore;

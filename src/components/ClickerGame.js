@@ -194,7 +194,19 @@ export default function ClickerGame({
             }, 600);
         }
 
-        setScore(prev => prev + 1);
+        setScore(prev => {
+            const nextScore = prev + 1;
+            if (nextScore % 1000 === 0) {
+                const noAudio = new Audio('/no.mp3');
+                noAudio.volume = 0.8;
+                noAudio.play().catch(e => console.log('Audio play failed:', e));
+            } else if (nextScore % 100 === 0) {
+                const stopAudio = new Audio('/stop.mp3');
+                stopAudio.volume = 0.8;
+                stopAudio.play().catch(e => console.log('Audio play failed:', e));
+            }
+            return nextScore;
+        });
 
         setHp(prev => {
             const nextHp = prev - 1;

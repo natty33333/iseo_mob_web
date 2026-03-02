@@ -45,8 +45,11 @@ export default function GamePage() {
             )}
 
             <h1 style={{ marginBottom: '20px', fontSize: '2rem', fontWeight: 'bold' }}>소에 클리커</h1>
-            <p style={{ marginBottom: '30px', color: 'hsl(var(--muted-foreground))', textAlign: 'center' }}>
+            <p style={{ marginBottom: '10px', color: 'hsl(var(--muted-foreground))', textAlign: 'center' }}>
                 이소에를 터치해서 공격하세요! 체력이 0이 되면 기절합니다.
+            </p>
+            <p style={{ marginBottom: '30px', color: '#67e8f9', textAlign: 'center', fontSize: '0.9rem', fontWeight: 'bold' }}>
+                100번, 1000번마다 소에의 목소리가 나옵니다!
             </p>
 
             <ClickerGame
